@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="utf-8" />
+    <title>demo</title>
+    <link href="style/weibo.css" rel="stylesheet" type="text/css" />
+    <script src="js/angular.min.js"></script>
+</head>
+
+<body>
+    <div class="commentMod" ng-app="comment" ng-controller="cm-ctrl">
+        <!-- add comment -->
+        <div class="takeComment">
+            <textarea name="textarea" class="takeTextField" ng-model="content" ng-keydown="enter($event);"></textarea>
+            <div class="takeSbmComment">
+                <input type="button" class="inputs" ng-click="add();" /> <span>(可按 Enter 回复)</span> </div>
+        </div>
+        <!-- comment list -->
+        <div class="commentOn">
+            <div class="messList" id="msg_box">
+                <div class="noContent" ng-init="show=true" ng-show="show">暂无数据！</div>
+                <div class="reply" ng-repeat="item in dataset">
+                    <p class="replyContent">{{item.content}}</p>
+                    <p class="operation">
+                        <span class="replyTime">{{item.time*1000|date:'yyyy-MM-dd hh:mm:ss'}}</span>
+                        <span class="handle">
+                                <a ng-click="handle(item.ID, 'acc');" href="javascript:;" class="top">{{item.acc}}</a>
+                                <a ng-click="handle(item.ID, 'ref');" href="javascript:;" class="down_icon">{{item.ref}}</a>
+                                <a ng-click="handle(item.ID, 'del');" href="javascript:;" class="cut">删除</a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="page" id="page_box"> <a href="javascript:;" class="{{page==item ? 'active' : ''}}" ng-repeat="item in pageCount" ng-click="pageChange(item);">{{item}}</a> </div>
+        </div>
+    </div>
+</body>
+<script src="js/ctrl.js"></script>
+
+</html>
