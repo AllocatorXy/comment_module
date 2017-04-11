@@ -43,15 +43,28 @@ const st = require('express-static');
 const mysql = require('mysql');
 const server = ex();
 
-/**
- * connect to database 'weibo'
- * @type {database}
- */
+// connect to mysql
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '298319',
-    database: 'weibo'
+    password: ''
+});
+// 创建数据库什么的
+const $table = '\
+    CREATE TABLE `comment` (\
+    `ID` int(15) NOT NULL AUTO_INCREMENT,\
+    `content` text NOT NULL,\
+    `time` int(12) NOT NULL,\
+    `acc` int(20) NOT NULL DEFAULT "0",\
+    `ref` int(20) NOT NULL DEFAULT "0",\
+    PRIMARY KEY (`ID`)\
+    ) CHARACTER SET utf8 COLLATE utf8_general_ci\
+';
+db.query('set names "utf8"');
+db.query('CREATE DATABASE weibo', err => {
+    db.query('USE weibo', err => {
+        db.query($table, err => { /* eat any err */ });
+    });
 });
 
 server.listen(80); // port
